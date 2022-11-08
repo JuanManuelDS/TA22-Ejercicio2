@@ -11,8 +11,9 @@ public class App
         //--------------MODELO ------------------
         ConexionSQL csql = new ConexionSQL();
         Clientes c = new Clientes();
+        Videos v = new Videos();
 
-        ControladorDB cdb = new ControladorDB(csql, c);
+        ControladorDB cdb = new ControladorDB(csql, c, v);
         cdb.iniciarDB();
 
         //------------VISTA-------------------

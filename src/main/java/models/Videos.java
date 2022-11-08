@@ -21,6 +21,7 @@ public class Videos {
 					+ "cli_id INT(11) DEFAULT NULL,"
 					+ "PRIMARY KEY (id)," 
 					+ "CONSTRAINT FKClienteVideo FOREIGN KEY (cli_id) REFERENCES clientes (id)"
+					+ "ON UPDATE CASCADE ON DELETE CASCADE"
 					+ ");";
 			st.executeUpdate(query);
 			System.out.println("Tabla creada con éxito!");
@@ -32,7 +33,7 @@ public class Videos {
 	}
 
 	// M�todo para insertar datos en la tabla
-	public void insertClientes() {
+	public void insertVideos() {
 		Connection c = ConexionSQL.connection;
 		try {
 			String query = "INSERT INTO videos (title, director, cli_id) values"
