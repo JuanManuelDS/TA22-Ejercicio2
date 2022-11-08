@@ -3,6 +3,8 @@ package controllers;
 import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -26,6 +28,7 @@ public class ControladorVista implements ActionListener {
 		this.cframe = cframe;
 		this.panelOpciones = panelOpciones;
 		this.panelFormularios = panelFormularios;
+		crudCliente = true;
 		agregarEventos();
 	}
 
@@ -37,6 +40,11 @@ public class ControladorVista implements ActionListener {
 	}
 
 	public void agregarEventos() {
+		panelOpciones.comboBox.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent arg0) {
+				changeCrudViews();
+			}
+		});
 		panelOpciones.btnCrearCliente.addActionListener(this);
 		panelOpciones.btnBuscarCliente.addActionListener(this);
 		panelOpciones.btnEliminarCliente.addActionListener(this);
@@ -216,6 +224,67 @@ public class ControladorVista implements ActionListener {
 		} catch (SQLException ex) {
 			System.out.println(ex.getMessage());
 			System.out.println("Error al insertar datos.");
+		}
+	}
+	
+	public void changeCrudViews() {
+		if(panelOpciones.comboBox.getSelectedIndex() == 0) {
+			crudCliente = true;
+		} else if(panelOpciones.comboBox.getSelectedIndex() == 1) {
+			crudCliente=false;
+		}
+		changeForms();
+	}
+	
+	public void changeForms() {
+		//Oculto/desoculto labels y textfields según elección comboBox
+		//CREAR FORM CHANGE
+		panelFormularios.lblDni.setVisible(crudCliente);
+		panelFormularios.crearDni.setVisible(crudCliente);
+		panelFormularios.lblFecha.setVisible(crudCliente);
+		panelFormularios.crearFecha.setVisible(crudCliente);
+		
+		//UPDATE FORM CHANGE
+		panelFormularios.fechaLabel.setVisible(crudCliente);
+		panelFormularios.actualizarFecha.setVisible(crudCliente);
+		panelFormularios.dniLabel.setVisible(crudCliente);
+		panelFormularios.actualizarDNI.setVisible(crudCliente);
+		
+		if(!crudCliente) {
+			//CREAR FORM CHANGE
+			panelFormularios.lnlNombre.setText("Título: ");
+			panelFormularios.lblApellido.setText("Director: ");
+			panelFormularios.lblDireccin.setText("Id del cliente: ");
+			
+			//UPDATE FORM CHANGE
+			panelFormularios.lblDniActual.setText("Título actual: ");
+			panelFormularios.labelNombre.setText("Título: ");
+			panelFormularios.labelApellido.setText("Director: ");
+			panelFormularios.direccionLabel.setText("Id Cliente: ");
+			
+			//BUSCAR
+			panelFormularios.lblDniBuscar.setText("Título de la película: ");
+			
+			//ELIMINAR
+			panelFormularios.lblDniBorrar.setText("Título de la película: ");
+			
+		} else {
+			//CREAR FORM CHANGE
+			panelFormularios.lnlNombre.setText("Nombre: ");
+			panelFormularios.lblApellido.setText("Apellido: ");
+			panelFormularios.lblDireccin.setText("Direccion: ");
+			
+			//UPDATE FORM CHANGE
+			panelFormularios.lblDniActual.setText("DNI actual: ");
+			panelFormularios.labelNombre.setText("Nombre: ");
+			panelFormularios.labelApellido.setText("Apellido: ");
+			panelFormularios.direccionLabel.setText("Dirección: ");
+			
+			//BUSCAR
+			panelFormularios.lblDniBuscar.setText("DNI de la persona: ");
+			
+			//ELIMINAR
+			panelFormularios.lblDniBorrar.setText("DNI de la persona: ");
 		}
 	}
 }

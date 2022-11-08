@@ -38,29 +38,22 @@ public class PanelOpciones extends JPanel{
 		comboBox.addItem("Video");
 		add(comboBox);
 		
-		btnCrearCliente = new JButton("Crear cliente");
+		btnCrearCliente = new JButton("Crea");
 		add(btnCrearCliente);
 		
-		btnEliminarCliente = new JButton("Eliminar cliente");
+		btnEliminarCliente = new JButton("Eliminar");
 		add(btnEliminarCliente);
 		
-		btnModificarCliente = new JButton("Modificar cliente");
+		btnModificarCliente = new JButton("Modificar");
 		add(btnModificarCliente);
 		
-		btnListarClientes = new JButton("Listar clientes");
+		btnListarClientes = new JButton("Listar");
 		add(btnListarClientes);
 		
-		btnBuscarCliente = new JButton("Buscar cliente");
+		btnBuscarCliente = new JButton("Buscar");
 		add(btnBuscarCliente);
 		
-		/*comboBox.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent arg0) {
-				System.out.println("Entro al evento");
-				btnCrearCliente.setText("Creo video");
-				System.out.println(btnBuscarCliente.getText() + "");
-				System.out.println(btnCrearCliente.getText() + "");
-			}
-		});*/
+		
 		
 	}
 	
