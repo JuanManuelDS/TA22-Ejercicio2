@@ -69,27 +69,27 @@ public class ControladorVista implements ActionListener {
 
 		} else if(panelOpciones.btnListarClientes == e.getSource()) {
 			conSQL.conectar();
-			listar();
+			listarClientes();
 			conSQL.closeConnection();
 			
 		} else if(panelFormularios.crearButton == e.getSource()) {
 			conSQL.conectar();
-			crear();
+			crearCliente();
 			conSQL.closeConnection();
 			
 		} else if(panelFormularios.borrarButton == e.getSource()) {
 			conSQL.conectar();
-			borrar();
+			borrarCliente();
 			conSQL.closeConnection();
 			
 		} else if(panelFormularios.buscarButton == e.getSource()) {
 			conSQL.conectar();
-			buscar();
+			buscarCliente();
 			conSQL.closeConnection();
 			
 		} else if(panelFormularios.actualizarButton == e.getSource()) {
 			conSQL.conectar();
-			modificar();
+			modificarCliente();
 			conSQL.closeConnection();
 		}
 	}
@@ -109,7 +109,7 @@ public class ControladorVista implements ActionListener {
 		cl.first(container);
 	}
 
-	public void buscar() {
+	public void buscarCliente() {
 		Connection c = ConexionSQL.connection;
 		int dni = Integer.parseInt(panelFormularios.buscarTextfield.getText());
 		String data = "";
@@ -132,7 +132,7 @@ public class ControladorVista implements ActionListener {
 		}
 	}
 
-	public void crear() {
+	public void crearCliente() {
 		// INSERT VALUES
 		Connection c = ConexionSQL.connection;
 		try {
@@ -154,7 +154,7 @@ public class ControladorVista implements ActionListener {
 		}
 	}
 
-	public void borrar() {
+	public void borrarCliente() {
 		// DELETE
 		Connection c = ConexionSQL.connection;
 		try {
@@ -171,7 +171,7 @@ public class ControladorVista implements ActionListener {
 		}
 	}
 
-	public void modificar() {
+	public void modificarCliente() {
 		Connection c = ConexionSQL.connection;
 		try {
 			int dniActual = Integer.parseInt(panelFormularios.dniActual.getText());
@@ -195,7 +195,7 @@ public class ControladorVista implements ActionListener {
 		}
 	}
 
-	public void listar() {
+	public void listarClientes() {
 		Connection c = ConexionSQL.connection;
 		String data = "";
 		try {
@@ -209,6 +209,109 @@ public class ControladorVista implements ActionListener {
 				data += "<br/>Direccion: " + resultSet.getString("direccion");
 				data += "<br/>Dni: " + resultSet.getString("dni");
 				data += "<br/>Fecha: " + resultSet.getString("fecha");
+				data += "<br/>-----------------<br/>";
+			}
+			nextImage(cframe.panelContainer);
+			cframe.labelResultados.setText("<html>" + data + "</html>");
+		} catch (SQLException ex) {
+			System.out.println(ex.getMessage());
+			System.out.println("Error al insertar datos.");
+		}
+	}
+	//------------------------------METODOS VIDEO---------------------------------------
+	public void buscarVideo() {
+		Connection c = ConexionSQL.connection;
+		int dni = Integer.parseInt(panelFormularios.buscarTextfield.getText());
+		String data = "";
+		try {
+			String query = "SELECT * FROM clientes WHERE dni=" + dni + ";";
+			Statement st = c.createStatement();
+			java.sql.ResultSet resultSet;
+			resultSet = st.executeQuery(query);
+			while (resultSet.next()) {
+				data += "<html>Titulo: " + resultSet.getString("title");
+				data += "<br/>Director: " + resultSet.getString("director");
+				data += "<br/>ID Cliente: " + resultSet.getString("cli_id")+ "</html>";
+			}
+			panelFormularios.resultadoBusqueda.setText(data);
+		} catch (SQLException ex) {
+			System.out.println(ex.getMessage());
+			System.out.println("Error al insertar datos.");
+		}
+	}
+	
+	public void crearVideo() {
+		// INSERT VALUES
+		Connection c = ConexionSQL.connection;
+		try {
+			String title = panelFormularios.crearNombre.getText();
+			String director = panelFormularios.crearApellido.getText();
+			int cli_id = Integer.parseInt(panelFormularios.crearDni.getText());
+
+			String query = "INSERT INTO videos (title, director, cli_id) values" + "('" + title
+					+ "','" + director + "', '" + cli_id + "');";
+			System.out.println(query);
+			Statement st = c.createStatement();
+			st.executeUpdate(query);
+			System.out.println("Datos insertados con exito!");
+		} catch (SQLException | NumberFormatException ex) {
+			System.out.println(ex.getMessage());
+			System.out.println("Error al insertar datos.");
+		}
+	}
+	
+	public void borrarVideo() {
+		// DELETE
+		Connection c = ConexionSQL.connection;
+		try {
+			// Cambiar atributo
+			int dni = Integer.parseInt(panelFormularios.borrarTexfield.getText());
+
+			String query = "DELETE FROM videos " + "WHERE dni=" + dni + ";";
+			System.out.println(query);
+			Statement st = c.createStatement();
+			st.executeUpdate(query);
+			System.out.println("Cliente borrado con exito!");
+		} catch (SQLException | NumberFormatException ex) {
+			System.out.println(ex.getMessage());
+			System.out.println("Error al insertar datos.");
+		}
+	}
+	
+	public void modificarVideo() {
+		Connection c = ConexionSQL.connection;
+		try {
+			// Cambiar atributo
+			int dniActual = Integer.parseInt(panelFormularios.dniActual.getText());
+			String title = panelFormularios.actualizarNombre.getText();
+			String director = panelFormularios.actualizarApellidos.getText();
+			int cli_id = Integer.parseInt(panelFormularios.actualizarDNI.getText());
+			
+			String query = "UPDATE videos "+
+					"SET title = '"+title+"', director='"+director+"', cli_id = "+cli_id+
+					"WHERE dni = "+ dniActual +";";
+			System.out.println(query);
+			Statement st = c.createStatement();
+			st.executeUpdate(query);
+			System.out.println("Datos insertados con exito!");
+		}catch(SQLException | NumberFormatException ex) {
+			System.out.println(ex.getMessage());
+			System.out.println("Error al insertar datos.");
+		}
+	}
+	
+	public void listarVideos() {
+		Connection c = ConexionSQL.connection;
+		String data = "";
+		try {
+			String query = "SELECT * FROM videos;";
+			Statement st = c.createStatement();
+			java.sql.ResultSet resultSet;
+			resultSet = st.executeQuery(query);
+			while (resultSet.next()) {
+				data += "Titulo: " + resultSet.getString("title");
+				data += "<br/>Director: " + resultSet.getString("director");
+				data += "<br/>ID Cliente: " + resultSet.getString("cli_id");
 				data += "<br/>-----------------<br/>";
 			}
 			nextImage(cframe.panelContainer);
