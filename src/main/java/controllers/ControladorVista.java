@@ -264,10 +264,9 @@ public class ControladorVista implements ActionListener {
 		// DELETE
 		Connection c = ConexionSQL.connection;
 		try {
-			// Cambiar atributo
-			int dni = Integer.parseInt(panelFormularios.borrarTexfield.getText());
+			String tituloActual = panelFormularios.dniActual.getText();
 
-			String query = "DELETE FROM videos " + "WHERE dni=" + dni + ";";
+			String query = "DELETE FROM videos " + "WHERE title=" + tituloActual + ";";
 			System.out.println(query);
 			Statement st = c.createStatement();
 			st.executeUpdate(query);
@@ -281,15 +280,14 @@ public class ControladorVista implements ActionListener {
 	public void modificarVideo() {
 		Connection c = ConexionSQL.connection;
 		try {
-			// Cambiar atributo
-			int dniActual = Integer.parseInt(panelFormularios.dniActual.getText());
+			String tituloActual = panelFormularios.dniActual.getText();
 			String title = panelFormularios.actualizarNombre.getText();
 			String director = panelFormularios.actualizarApellidos.getText();
 			int cli_id = Integer.parseInt(panelFormularios.actualizarDNI.getText());
 			
 			String query = "UPDATE videos "+
 					"SET title = '"+title+"', director='"+director+"', cli_id = "+cli_id+
-					"WHERE dni = "+ dniActual +";";
+					"WHERE dni = "+ tituloActual +";";
 			System.out.println(query);
 			Statement st = c.createStatement();
 			st.executeUpdate(query);
