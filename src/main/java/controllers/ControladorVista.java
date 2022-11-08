@@ -77,27 +77,47 @@ public class ControladorVista implements ActionListener {
 
 		} else if(panelOpciones.btnListarClientes == e.getSource()) {
 			conSQL.conectar();
-			listarClientes();
+			if(crudCliente) {
+				listarClientes();
+			}else {
+				listarVideos();
+			}
 			conSQL.closeConnection();
 			
 		} else if(panelFormularios.crearButton == e.getSource()) {
 			conSQL.conectar();
-			crearCliente();
+			if(crudCliente) {
+				crearCliente();
+			} else {
+				crearVideo();
+			}
 			conSQL.closeConnection();
 			
 		} else if(panelFormularios.borrarButton == e.getSource()) {
 			conSQL.conectar();
-			borrarCliente();
+			if(crudCliente) {
+				borrarCliente();
+			} else {
+				borrarVideo();
+			}
 			conSQL.closeConnection();
 			
 		} else if(panelFormularios.buscarButton == e.getSource()) {
 			conSQL.conectar();
-			buscarCliente();
+			if(crudCliente) {
+				buscarCliente();
+			} else {
+				buscarVideo();
+			}
 			conSQL.closeConnection();
 			
 		} else if(panelFormularios.actualizarButton == e.getSource()) {
 			conSQL.conectar();
-			modificarCliente();
+			if(crudCliente) {
+				modificarCliente();
+			} else {
+				modificarVideo();
+			}
 			conSQL.closeConnection();
 		}
 	}
@@ -317,7 +337,7 @@ public class ControladorVista implements ActionListener {
 		try {
 			String title = panelFormularios.crearNombre.getText();
 			String director = panelFormularios.crearApellido.getText();
-			int cli_id = Integer.parseInt(panelFormularios.crearDni.getText());
+			int cli_id = Integer.parseInt(panelFormularios.crearDireccion.getText());
 
 			String query = "INSERT INTO videos (title, director, cli_id) values" + "('" + title
 					+ "','" + director + "', '" + cli_id + "');";
@@ -335,8 +355,7 @@ public class ControladorVista implements ActionListener {
 		// DELETE
 		Connection c = ConexionSQL.connection;
 		try {
-			String tituloActual = panelFormularios.dniActual.getText();
-
+			String tituloActual = panelFormularios.lblDniBorrar.getText();
 			String query = "DELETE FROM videos " + "WHERE title=" + tituloActual + ";";
 			System.out.println(query);
 			Statement st = c.createStatement();
@@ -354,7 +373,7 @@ public class ControladorVista implements ActionListener {
 			String tituloActual = panelFormularios.dniActual.getText();
 			String title = panelFormularios.actualizarNombre.getText();
 			String director = panelFormularios.actualizarApellidos.getText();
-			int cli_id = Integer.parseInt(panelFormularios.actualizarDNI.getText());
+			int cli_id = Integer.parseInt(panelFormularios.actualizarDireccion.getText());
 			
 			String query = "UPDATE videos "+
 					"SET title = '"+title+"', director='"+director+"', cli_id = "+cli_id+
