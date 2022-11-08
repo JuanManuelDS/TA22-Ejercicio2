@@ -312,11 +312,12 @@ public class ControladorVista implements ActionListener {
 	//------------------------------METODOS VIDEO---------------------------------------
 	public void buscarVideo() {
 		Connection c = ConexionSQL.connection;
-		int dni = Integer.parseInt(panelFormularios.buscarTextfield.getText());
+		String title = panelFormularios.buscarTextfield.getText();
 		String data = "";
 		try {
-			String query = "SELECT * FROM clientes WHERE dni=" + dni + ";";
+			String query = "SELECT * FROM videos WHERE title='" + title + "';";
 			Statement st = c.createStatement();
+			System.out.println(query);
 			java.sql.ResultSet resultSet;
 			resultSet = st.executeQuery(query);
 			while (resultSet.next()) {
@@ -355,8 +356,8 @@ public class ControladorVista implements ActionListener {
 		// DELETE
 		Connection c = ConexionSQL.connection;
 		try {
-			String tituloActual = panelFormularios.lblDniBorrar.getText();
-			String query = "DELETE FROM videos " + "WHERE title=" + tituloActual + ";";
+			String tituloActual = panelFormularios.borrarTexfield.getText();
+			String query = "DELETE FROM videos " + "WHERE title='" + tituloActual + "';";
 			System.out.println(query);
 			Statement st = c.createStatement();
 			st.executeUpdate(query);
@@ -376,8 +377,8 @@ public class ControladorVista implements ActionListener {
 			int cli_id = Integer.parseInt(panelFormularios.actualizarDireccion.getText());
 			
 			String query = "UPDATE videos "+
-					"SET title = '"+title+"', director='"+director+"', cli_id = "+cli_id+
-					"WHERE dni = "+ tituloActual +";";
+					"SET title = '"+title+"', director='"+director+"', cli_id = '"+cli_id+
+					"' WHERE title = '"+ tituloActual +"';";
 			System.out.println(query);
 			Statement st = c.createStatement();
 			st.executeUpdate(query);
