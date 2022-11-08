@@ -17,6 +17,7 @@ public class ControladorVista implements ActionListener {
 	private ClienteFrame cframe;
 	private PanelOpciones panelOpciones;
 	private PanelFormularios panelFormularios;
+	private boolean crudCliente;
 
 	private ConexionSQL conSQL = new ConexionSQL();
 
